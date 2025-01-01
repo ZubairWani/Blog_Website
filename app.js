@@ -3,16 +3,23 @@ const { default: mongoose } = require('mongoose');
 const morgan = require('morgan');
 const blogRoutes = require('./routes/blogRoutes');
 const { render } = require('ejs');
-
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 //Express App
 const app = express();
 
 //Connect to MongoBd
-const dbUser = 'mongodb+srv://zubair:Zubair1231@cluster-node.zxi0k.mongodb.net/NodeJS-Practice?retryWrites=true&w=majority&appName=Cluster-Node';
+const dbUser = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster-node.zxi0k.mongodb.net/NodeJS-Practice?retryWrites=true&w=majority&appName=Cluster-Node`;
 mongoose.connect(dbUser)
-.then((result)=> app.listen(3000) )
+
+.then((result)=> 
+{
+    console.log("Connected to Server")
+    app.listen(3000)
+}
+     )
 .catch((err)=> console.log(err))
 
 //register view Engine
